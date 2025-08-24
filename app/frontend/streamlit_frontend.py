@@ -157,7 +157,6 @@ def booked_list():
             response = requests.get(url="http://127.0.0.1:8000/check")
             if response.status_code == 200:
                 result = response.json().get('messages',{})   # <-- get the full dict
-
                 st.success(result)
             else:
                 logger.error("an error occurred")
