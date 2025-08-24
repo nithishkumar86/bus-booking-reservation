@@ -1,0 +1,4 @@
+llm:
+  provider: "groq"
+  model_name: "meta-llama/llama-guard-4-12b"
+

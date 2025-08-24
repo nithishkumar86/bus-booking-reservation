@@ -1,0 +1,4 @@
+bus-booking/
+END_TO_END_BUS_BOOKING.egg-info/
+logs/
+.env

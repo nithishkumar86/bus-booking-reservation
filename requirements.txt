@@ -1,0 +1,8 @@
+langgraph
+langchain-groq
+langchain-community
+fastapi[standard]
+streamlit
+uvicorn
+psycopg2
+-e .
