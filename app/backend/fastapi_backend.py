@@ -13,6 +13,8 @@ import ast
 
 logger = get_logger(__name__)
 
+config = {"configurable": {"thread_id": "1","recursion_limit": 100 }}
+
 app = FastAPI()
 
 app.add_middleware(
@@ -22,6 +24,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # ----------- Routes -----------
 @app.post("/create", response_model=ResponseModel)
@@ -35,7 +38,6 @@ def create_booking(request: CreateBody):
     try:
         # Load the graph
         graph = GraphBuilder().graph_retrieval()
-        config = {"configurable": {"thread_id": "1","recursion_limit": 100 }}
         response = graph.invoke({"messages": question},config = config,stream_mode='values')
         logger.info(f"create booking response {response} is created succesfully ")
         messages = response.get("messages", [])
@@ -57,7 +59,6 @@ def retrieve_booking(seat_no: int):
     try:
         # Load the graph
         graph = GraphBuilder().graph_retrieval()
-        config = {"configurable": {"thread_id": "1","recursion_limit": 100 }}
         response = graph.invoke({"messages": question},config=config,stream_mode='values')
         logger.info(f"booking is created : {response}  ")
         messages = response.get("messages", [])
@@ -78,7 +79,6 @@ def update_booking(request: UpdateBody):
     try:
         # Load the graph
         graph = GraphBuilder().graph_retrieval()
-        config = {"configurable": {"thread_id": "1","recursion_limit": 100 }}
         response = graph.invoke({"messages": question},config=config,stream_mode='values')
         messages = response.get("messages", [])
         result = messages[-1].content if messages else "No response generated."
@@ -97,7 +97,6 @@ def delete_booking(seat_no: int):
     try:
         # Load the graph
         graph = GraphBuilder().graph_retrieval()
-        config = {"configurable": {"thread_id": "1","recursion_limit": 100 }}
         response = graph.invoke({"messages": question},config=config,stream_mode='values')
         logger.info(f" delete successfull : {response} ")
         messages = response.get("messages", [])
@@ -108,28 +107,25 @@ def delete_booking(seat_no: int):
         raise HTTPException(status_code=404,detail=f"the error is {str(e)}")
     
 
-@app.get("/check", response_model=List[CreateBody])
+@app.get("/check", response_model=dict)
 def booked_list():
-    question = f"fetch all the records in the database"
+    question = "fetch all the records in the database"
     logger.info(f"fetch booking question is created succesfully {question}")
     try:
         # Load the graph
         graph = GraphBuilder().graph_retrieval()
-        config = {"configurable": {"thread_id": "1","recursion_limit": 100 }}
-        response = graph.invoke({"messages": question},config=config,stream_mode='values')
-        logger.info(f" fetch record successfull : {response} ")
-        messages = response.get("messages", [])
-        result = messages[-1].content if messages else "No response generated."
-        if isinstance(result, str):
-            try:
-                result = json.loads(result)  # works if JSON string
-            except:
-                result = ast.literal_eval(result)  # works if Python dict string
+        response = graph.invoke({"messages": question}, config=config, stream_mode='values')
+        logger.info(f"fetch record successful : {response} ")
 
-        return JSONResponse(status_code=200, content=result)  # ✅ send real dict
+        messages = response.get("messages", [])
+        raw_result = messages[-1].content if messages else []
+
+        return {"messages": raw_result}
+
     except BookingException as e:
-        logger.error(f"there is an error in delete booking {str(e)}")
-        raise HTTPException(status_code=404,detail=f"the error is {str(e)}")
+        logger.error(f"there is an error in fetch booking {str(e)}")
+        raise HTTPException(status_code=404, detail=f"the error is {str(e)}")
+
 
 
     

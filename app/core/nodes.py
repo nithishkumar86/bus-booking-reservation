@@ -1,10 +1,12 @@
 from app.core.states import State
 from app.core.LLM import ModelLoader
 from langchain_core.prompts import ChatPromptTemplate
-from app.core.prompt_library import PROMPT_TEMPLATES1,PROMPT_TEMPLATES2
+from app.core.prompt_library import PROMPT_TEMPLATES2
 from langgraph.graph import MessagesState
 from app.Tools.custom_tools import bind_tools
 from app.common.logger import get_logger
+from langchain_core.output_parsers import StrOutputParser
+from langgraph.graph import END
 
 logger = get_logger(__name__)
 
@@ -25,3 +27,4 @@ class Agents:
         response=chain.invoke({'messages':state["messages"]})
         self.logger.info(f"assitant node finised his work and the response is : {response}")
         return {"messages":[response]}
+    

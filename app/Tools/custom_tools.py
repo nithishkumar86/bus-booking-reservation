@@ -172,4 +172,4 @@ tools=[booking_system,fetch_bus_booking_system,remove_booking,updated_system,fet
 
 tool_node=ToolNode(tools)
 
-bind_tools=llm.bind_tools(tools)
+bind_tools=llm.bind_tools(tools=tools)

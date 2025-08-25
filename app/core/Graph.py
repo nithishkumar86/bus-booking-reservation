@@ -19,11 +19,13 @@ class GraphBuilder:
         self.graph.add_node("tools",tool_node)
         self.graph.add_edge(START,"assistant")
         self.graph.add_conditional_edges("assistant",
-                            tools_condition,
-                            {
-                                "tools",
-                                END
-                            })
+                                         tools_condition,
+                                         {
+                                             "tools",
+                                             END
+                                         }
+        )
+
         self.graph.add_edge("tools",END)
         self.logger.info("graph initializated successfully")
         return self.graph.compile(checkpointer=self.memory)

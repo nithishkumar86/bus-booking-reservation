@@ -138,7 +138,7 @@ def delete_method():
             return
         payload = {"seat_no": seat_no}
         try:
-            response = requests.delete(url="http://127.0.0.1:8000/delete/{seat_no}")
+            response = requests.delete(url=f"http://127.0.0.1:8000/delete/{seat_no}")
             if response.status_code == 200:
                 message = response.json().get("messages", "")
                 logger.info(f"seat no {seat_no} is deleted successfully")
@@ -154,16 +154,23 @@ def delete_method():
 def booked_list():
     if st.button("Click to Process"):
         try:
-            response = requests.get(url="http://127.0.0.1:8000/check")
+            response = requests.get("http://127.0.0.1:8000/check")
+
             if response.status_code == 200:
-                result = response.json().get('messages',{})   # <-- get the full dict
-                st.success(result)
+                try:
+                    result = response.json()  # ✅ valid JSON
+                    st.success("Bookings fetched successfully ✅")
+                    st.success(result)  # pretty-print dict/list
+                except ValueError:
+                    st.error("Server did not return valid JSON")
             else:
-                logger.error("an error occurred")
+                st.error(f"Error: {response.status_code}")
+                logger.error(f"Check request failed: {response.text}")
 
         except Exception as e:
-            logger.error(f"an error occurred  : {str(e)}")
+            logger.error(f"An error occurred: {str(e)}")
             st.error(f"An error occurred: {str(e)}")
+
 
 
 
