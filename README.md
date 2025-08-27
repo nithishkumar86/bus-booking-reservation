@@ -36,7 +36,6 @@ Deployment is handled with **Docker, Jenkins CI/CD, AWS ECR, and AWS Runner**.
 **Clone the repository**  
 ```bash
 git clone https://github.com/nithishkumar86/bus-booking-reservation.git
-cd app
 ```
 
 **Create virtual environment & install dependencies**  
@@ -50,6 +49,7 @@ pip install -r requirements.txt
 
 **Run FastAPI backend and streamlit Frontent By Running the Command in the Terminal**
 ```bash
+cd app
 python main.py
 ```
 
