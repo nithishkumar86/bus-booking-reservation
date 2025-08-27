@@ -158,7 +158,7 @@ def booked_list():
 
             if response.status_code == 200:
                 try:
-                    result = response.json()  # ✅ valid JSON
+                    result = response.json().get('messages', {})  # ✅ valid JSON
                     st.success("Bookings fetched successfully ✅")
                     st.success(result)  # pretty-print dict/list
                 except ValueError:
