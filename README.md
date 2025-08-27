@@ -1,55 +1,106 @@
-The Bus Reservation System is an AI-powered application that allows users to book, update, delete, and fetch bus reservations seamlessly. It integrates:
+# 🚌 Bus Booking System  
 
-FastAPI backend (for booking APIs)
-LangGraph + LLM Agent (Groq/OpenAI) (for natural language query understanding)
-PostgreSQL for data storage
-Streamlit UI (optional frontend for interaction)
-Users can interact in plain English like:
-“Book a seat for Nithish from Chennai to Bangalore on 2025-12-12 at 09:00 AM”
-“Update my seat 3 to travel from Delhi to Mumbai on 2025-12-20 at 6:00 PM”
-“Delete seat 1 from reservation”
-“Fetch all my bookings”
+An AI-assisted **Bus Booking System** that supports **basic CRUD operations** with PostgreSQL and integrates **Groq API** for intelligent assistance.  
+The project leverages **LangGraph for state management**, **FastAPI + Streamlit** for APIs & UI, and includes production-ready **logging and custom exception handling**.  
+Deployment is handled with **Docker, Jenkins CI/CD, AWS ECR, and AWS Runner**.  
 
-The system will intelligently route the query to the right backend function (booking_system, update_booking, delete_booking, fetch_all_bookings).
+---
 
-Features
+## 🔹 Overview  
 
-Natural language booking (LLM-powered)
-CRUD operations: Create, Update, Delete, Fetch bookings Seat & schedule validation
-Modular design using LangGraph for orchestration
-Logging & monitoring built-in
-Memory for multi-turn conversations
+- **CRUD Operations** → Manage bus routes, bookings, passengers using PostgreSQL.  
+- **Groq API** → AI-enhanced user experience (e.g., query assistance, booking recommendations).  
+- **LangGraph** → Workflow/state orchestration for chatbot-like booking flow.  
+- **FastAPI** → Backend APIs for booking operations.  
+- **Streamlit** → Interactive UI for booking system.  
+- **Logging & Custom Exceptions** → Robust error handling and monitoring.  
+- **CI/CD** → Automated deployment with Docker + Jenkins pipeline.  
+- **AWS ECR + Runner** → Cloud-based container hosting and scaling.  
 
-Clone Repository
-git clone https://github.com/yourusername/bus-reservation-system.git
-cd bus-reservation-system
+---
 
-Create Virtual Environment
+## ⚙️ Tech Stack  
+
+- **Languages/Frameworks:** Python, FastAPI, Streamlit  
+- **Database:** PostgreSQL  
+- **AI/Orchestration:** Groq API, LangGraph  
+- **DevOps Tools:** Docker, Jenkins, AWS ECR, AWS Runner  
+- **Utilities:** Git, Logging, Custom Exception Handling  
+
+---
+
+## 🚀 Usage  
+
+### 1️⃣ Local Development  
+
+**Clone the repository**  
+```bash
+git clone https://github.com/nithishkumar86/bus-booking-reservation.git
+cd app
+```
+
+**Create virtual environment & install dependencies**  
+```bash
 python -m venv venv
-source venv/bin/activate   # On Linux/Mac
-venv\Scripts\activate   
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
 
-Install Dependencies
 pip install -r requirements.txt
+```
 
-Configure API Keys
-Create a .env file with your credentials:
+**Run FastAPI backend and streamlit Frontent By Running the Command in the Terminal**
+```bash
+python main.py
+```
 
-GROQ_API_KEY=your_groq_api_key
-OPENAI_API_KEY=your_openai_api_key 
 
-To Run the Project
-python main.py 
+### 3️⃣ Deployment (CI/CD)  
 
-Tech Stack
+#### Jenkins Pipeline  
+- Pulls repo from GitHub.  
+- Runs tests & lint checks.  
+- Builds Docker image.  
+- Pushes image to AWS ECR.  
+- Deploys to AWS Runner.  
 
-Python 3.10+
-FastAPI – REST backend
-PostgreSQL - for datastorage
-LangGraph – workflow orchestration
-Groq LLM API – query understanding
-Pydantic – data validation
-Streamlit – frontend (optional)
-Docker – containerization support
-git - source code Management
-Jenkins - Monitoring
+#### AWS ECR Push Example  
+```bash
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account_id>.dkr.ecr.<region>.amazonaws.com
+docker build -t bus-booking .
+docker tag bus-booking:latest <account_id>.dkr.ecr.<region>.amazonaws.com/bus-booking:latest
+docker push <account_id>.dkr.ecr.<region>.amazonaws.com/bus-booking:latest
+```
+
+---
+
+## 📊 Logging & Error Handling  
+
+- Centralized logging for API requests and booking operations.  
+- Custom exception classes for database, validation, and booking errors.  
+- Logs can be streamed to AWS CloudWatch for monitoring.  
+
+---
+
+## 📌 Features  
+
+- ✅ Add, update, delete, and view bus bookings (CRUD)  
+- ✅ PostgreSQL-backed persistence  
+- ✅ AI-powered booking assistant (Groq API + LangGraph)  
+- ✅ REST APIs (FastAPI) + UI (Streamlit)  
+- ✅ Dockerized for portability  
+- ✅ CI/CD with Jenkins + AWS Runner  
+- ✅ Logging & production-ready error handling  
+
+---
+
+
+
+**Response**  
+```json
+{
+  "booking_id": 101,
+  "status": "confirmed"
+}
+```
+
+---
