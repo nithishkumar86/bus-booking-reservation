@@ -54,22 +54,8 @@ python main.py
 ```
 
 
-### 3️⃣ Deployment (CI/CD)  
 
-#### Jenkins Pipeline  
-- Pulls repo from GitHub.  
-- Runs tests & lint checks.  
-- Builds Docker image.  
-- Pushes image to AWS ECR.  
-- Deploys to AWS Runner.  
 
-#### AWS ECR Push Example  
-```bash
-aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account_id>.dkr.ecr.<region>.amazonaws.com
-docker build -t bus-booking .
-docker tag bus-booking:latest <account_id>.dkr.ecr.<region>.amazonaws.com/bus-booking:latest
-docker push <account_id>.dkr.ecr.<region>.amazonaws.com/bus-booking:latest
-```
 
 ---
 
